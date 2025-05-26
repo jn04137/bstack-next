@@ -11,9 +11,11 @@ export default async function Page() {
     const teams = await data.json();
 
     return(
-        <div className="space-y-2">
-            <CreateTeamForm />
-            { teams.map((team: Team) => <TeamCard key={team.teamName} team={team}/>) }
+        <div className="flex justify-center">
+            <div className="space-y-2 w-1/3">
+                <CreateTeamForm />
+                { teams.map((team: Team) => <TeamCard key={team.teamName} team={team}/>) }
+            </div>
         </div>
     )
 }

@@ -27,13 +27,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`flex flex-col justify-between ${geistSans.variable} ${geistMono.variable} antialiased w-full min-h-screen`}
       >
-        <Navbar />
-        <div className="flex justify-center">
-          <div className="w-1/3">
-            {children}
-          </div>
+        <div>
+          <Navbar />
+        </div>
+        <div className="grow">
+          {children}
+        </div>
+        <div>
+          <footer className="flex py-3 px-4 items-center justify-start">
+            <div>Created by Jonathan Nguyen</div>
+          </footer>
         </div>
       </body>
     </html>

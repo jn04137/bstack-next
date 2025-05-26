@@ -35,7 +35,7 @@ function Form({visible, setVisible}: {
                         <input className="p-2 rounded bg-white/5" name="teamName" placeholder="team description"/>
                     </div>
                 </div>
-                <div className="space-x-2">
+                <div className="flex justify-end space-x-2">
                     <button className="bg-white/10 rounded py-1.5 px-4 hover:cursor-pointer hover:bg-white/15">Create</button>
                     <button
                         className="bg-white/5 rounded py-1.5 px-4 hover:cursor-pointer hover:bg-white/10"
