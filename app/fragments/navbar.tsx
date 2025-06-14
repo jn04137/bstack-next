@@ -7,7 +7,7 @@ export default function Navbar() {
                 <li><a href="/">home</a></li>
                 <li><a href="/users">users</a></li>
                 <li><a href="/teams">teams</a></li>
-                <li><a href="#about">about</a></li>
+                <li><a href="/about">about</a></li>
             </ul>
             <AuthButton />
         </div>
