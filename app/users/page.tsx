@@ -3,8 +3,9 @@ interface User {
 }
 
 export default async function Page() {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_HOST}/public/users`);
+    const data = await fetch(`${process.env.NEXT_PUBLIC_HOST}/user/getAll`);
     const users = await data.json();
+    console.log(users)
 
     return(
         <div className="flex justify-center">
