@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 
 export default function CreateTeamForm() {
     const [visible, setVisible] = useState(false);
@@ -14,6 +14,14 @@ export default function CreateTeamForm() {
             <Form visible={visible} setVisible={setVisible}/>
         </div>
     )
+}
+
+function createTeam(e: SyntheticEvent) {
+    e.preventDefault();
+    const url = `${process.env.NEXT_PUBLIC_HOST}/team/createTeam`
+    // const data = await fetch(`${process.env.NEXT_PUBLIC_HOST}/public/teams`);
+
+    console.log("Create team button clicked");
 }
 
 function Form({visible, setVisible}: {
@@ -36,7 +44,12 @@ function Form({visible, setVisible}: {
                     </div>
                 </div>
                 <div className="flex justify-end space-x-2">
-                    <button className="bg-white/10 rounded py-1.5 px-4 hover:cursor-pointer hover:bg-white/15">Create</button>
+                    <button 
+                        className="bg-white/10 rounded py-1.5 px-4 hover:cursor-pointer hover:bg-white/15"
+                        onClick={e => createTeam(e)}
+                    >
+                        Create
+                    </button>
                     <button
                         className="bg-white/5 rounded py-1.5 px-4 hover:cursor-pointer hover:bg-white/10"
                         onClick={() => setVisible(!visible)}>

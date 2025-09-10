@@ -9,7 +9,7 @@ export default async function Page() {
 
     return(
         <div className="flex justify-center">
-            <div className="space-y-2 w-1/3">
+            <div className="space-y-2 w-1/2">
                 <h1 className="text-4xl font-bold">Users</h1>
                 { users.map((user: User) => <UserCard key={user.username} user={user}/>) }
             </div>
