@@ -32,7 +32,7 @@ export default function RootLayout({
         <div>
           <Navbar />
         </div>
-        <div className="grow">
+        <div className="mt-18 grow">
           {children}
         </div>
         <div>

@@ -1,4 +1,5 @@
-import { AuthButton } from "./AuthButton"
+'use client';
+import { cookies } from 'next/headers';
 
 export default function Navbar() {
     return(
@@ -15,3 +16,16 @@ export default function Navbar() {
     )
 }
 
+async function AuthButton() {
+    const cookieStore = await cookies();
+    const allCookies = cookieStore.getAll()
+    console.log("all cookies: ", allCookies)
+
+    return(
+        <div>
+            <a href="/auth">
+                Login
+            </a>
+        </div>
+    )
+}

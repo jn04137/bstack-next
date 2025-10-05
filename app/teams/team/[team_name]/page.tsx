@@ -1,10 +1,11 @@
+import { TeamCard } from "./team_card"
 
 type ITeam = {
     teamId: number
     teamName: string
     teamNanoId: string
     teamDetails: string
-    teamOwnerUsername: string
+    ownerUsername: string
 }
 
 export default async function Page({
@@ -17,7 +18,7 @@ export default async function Page({
     return (
         <div className="flex justify-center">
             <div className="w-1/2 space-y-2">
-                <TeamCard teamName={team.teamName} teamDetails={team.teamDetails}/>
+                <TeamCard teamName={team.teamName} teamDetails={team.teamDetails} ownerUsername={team.ownerUsername}/>
                 <AchievmentsSection/>
                 <PlayersSection/>
                 <CommentsSection/>
@@ -36,25 +37,6 @@ async function fetchTeamData(teamNanoId: string): Promise<ITeam> {
     return data
 }
 
-function TeamCard({teamName, teamDetails}: {
-    teamName: string,
-    teamDetails: string
-}) {
-    return(
-        <div className="rounded bg-white/5 p-5 space-y-2">
-            <div>
-                <h1 className="text-2xl font-bold">{teamName}</h1>
-            </div>
-            <div>
-                <p>{teamDetails}</p>
-            </div>
-            <div>
-                Leagues<br/>
-                ESEA<br/>
-            </div>
-        </div>
-    )
-}
 
 function PlayerCard() {
     return(

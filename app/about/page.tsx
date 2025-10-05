@@ -1,4 +1,3 @@
-
 export default async function Page() {
     return(
         <div className="flex justify-center pt-10">

@@ -8,7 +8,7 @@ import {
 async function login(event: SyntheticEvent, username: string, password: string) {
 	event.preventDefault();
 
-	const url = `${process.env.NEXT_PUBLIC_HOST}/login`;
+	const url = `${process.env.NEXT_PUBLIC_HOST}/user/login`;
 
 	try {
 		await fetch(url, {
@@ -20,6 +20,7 @@ async function login(event: SyntheticEvent, username: string, password: string) 
 			headers: {
 				"Content-Type": "application/json"
 			},
+            credentials: 'include'
 		});
 	} catch(err) {
 		console.error(err);
