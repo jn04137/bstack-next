@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export function TeamCard({teamName, teamDetails, ownerUsername}: {
     teamName: string,
@@ -9,12 +9,16 @@ export function TeamCard({teamName, teamDetails, ownerUsername}: {
 }) {
     const [editable, setEditable] = useState(false);
 
+    const [teamNameEdit, setTeamNameEdit] = useState(teamName);
+    const [teamDetailEdit, setTeamDetailEdit] = useState(teamDetails);
+
     return(
         <div className="rounded bg-white/5 p-5 space-y-2">
-            <div className="flex justify-between w-full">
+            <div className="flex space-x-2 justify-between w-full">
                 <TitleSection
                     teamName={teamName}
                     ownerUsername={ownerUsername}
+                    setTeamNameEdit={setTeamNameEdit}
                     editable={editable}
                 />
                 <EditButton
@@ -24,12 +28,31 @@ export function TeamCard({teamName, teamDetails, ownerUsername}: {
             </div>
             <DescriptionSection
                 teamDetails={teamDetails}
+                setTeamDetailsEdit={setTeamDetailEdit}
                 editable={editable}
             />
             <LeagueSection editable={editable} />
         </div>
     )
 }
+
+async function updateTeam(teamName: string, teamDetails: string, eseaDivision: number) {
+
+    try {
+        const req = await fetch(`${process.env.NEXT_PUBLIC_HOST}/team/updateTeam`, {
+            method: "POST",
+            credentials: 'include',
+            body: JSON.stringify({
+                teamName,
+                teamDetails,
+                eseaDivision
+            })
+        });
+    } catch(err) {
+        console.warn(err)
+    }
+}
+
 
 function EditButton({editable, setEditable}: {
     editable: boolean,
@@ -66,8 +89,9 @@ function EditButton({editable, setEditable}: {
     )
 }
 
-function TitleSection({teamName, ownerUsername, editable}: {
+function TitleSection({teamName, setTeamNameEdit, ownerUsername, editable}: {
     teamName: string,
+    setTeamNameEdit: React.Dispatch<React.SetStateAction<string>>,
     ownerUsername: string,
     editable: boolean
 }) {
@@ -84,18 +108,21 @@ function TitleSection({teamName, ownerUsername, editable}: {
         <div className="w-full">
             <input
                 name="teamName"
-                className="text-2xl font-bold bg-white/5 rounded px-2 py-0.5"
+                className="w-full text-2xl font-bold bg-white/5 rounded px-2 py-0.5"
                 defaultValue={teamName}
+                onChange={e => setTeamNameEdit(e.target.value)}
             />
             <h2 className="text-sm italic">Owned by {ownerUsername}</h2>
         </div>
     );
 }
 
-function DescriptionSection({teamDetails, editable}: {
+function DescriptionSection({teamDetails, setTeamDetailsEdit, editable}: {
     teamDetails: string,
+    setTeamDetailsEdit: React.Dispatch<React.SetStateAction<string>>,
     editable: boolean
 }) {
+
     if(!editable) {
         return(
             <div>
@@ -115,9 +142,28 @@ function DescriptionSection({teamDetails, editable}: {
     );
 }
 
+async function getESEADivisions(setESEADivisions: React.Dispatch<React.SetStateAction<IESEADivision[]>>
+) {
+    const req = await fetch(`${process.env.NEXT_PUBLIC_HOST}/team/eseaDivisions`)
+    const eseaDivisions = await req.json();
+    setESEADivisions(eseaDivisions)
+}
+
+interface IESEADivision {
+    id: number
+    eseaDivision: string
+}
+
 function LeagueSection({editable}: {
     editable: boolean
 }) {
+    const [eseaDivisions, setESEADivisions] = useState<IESEADivision[]>([]) 
+
+    useEffect(() => {
+        getESEADivisions(setESEADivisions)
+    }, [])
+
+    console.log(eseaDivisions)
 
     if(!editable) {
         return(
@@ -133,9 +179,10 @@ function LeagueSection({editable}: {
             <h1 className="text-xl">Leagues</h1>
             <h2 className="text-lg">ESEA</h2>
             <div className="flex flex-col">
-                <label htmlFor="ESEALeague">Select Team's ESEA League:</label>
-                <select className="bg-white/5 py-2" id="ESEALeague" name="ESEALeague">
-                    <option className="bg-white/5 py-2" value="Intermediate">Intermediate</option>
+                <select className="bg-white/5 py-2 p-2" id="ESEALeague" name="ESEALeague">
+                    {eseaDivisions.map((division: IESEADivision) => {
+                        return <option key={division.id} className="bg-white/5 w-full py-2" value={division.id}>{division.eseaDivision}</option>
+                    })}
                     <option className="bg-white/5 py-2" value="Advanced">Advanced</option>
                 </select>
             </div>
